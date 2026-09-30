@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Rutas Running"
+description = "Una aplicación web en español para planificar rutas de running, visualizar desnivel e hidratación en el mapa y simular el ritmo de carrera con datos de terreno."
+version = "1.0.0"
+id = "artifacts/rutas-running"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22340
+
+[services.development]
+run = "pnpm --filter @workspace/rutas-running run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rutas-running", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/rutas-running/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22340"
+BASE_PATH = "/"
